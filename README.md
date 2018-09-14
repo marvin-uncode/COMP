@@ -1,34 +1,35 @@
-# Foo Project 
+# Movie Project 
 
-This is foo project brief description. We can add some interesting stuff to make Foo functions work and test it across different cases.
+This is the movie search list project. This project will display a default list of movies that is iterated through and compared to a movie inputted by the user. 
 
-* This is the best feature of Foo Project.
-* I am an optimized feature of Foo Project.
-* I am a future feature of Foo Project.
-* I am a silly bug of Foo Project. 
+* Compares user strings in list displayed, ignoring case
+* The most recent search will appear in the top of the list
+* When user exits program, data will be saved and exported to file
 
 ### Quick start
-**Make sure you have Foo OS version >= 800.0 and (Foo Package Manager >= 500BC**
+**Make sure you have Windows OS version 8 or Linux OS**
+**or
+**Access to internet to run on Rep Lit
 
-> Clone/Download the solution then run `main_foo.rb`
+> Clone/Download the solution then run `main.rb`
 
 ```
 
 # Download all files from canvas
 
-# For Mac OSX
-$ ruby main_foo.rb
+# For Windows
+$ ruby main.rb
 
 ```
 
 # Table of Contents
-* [Foo chapter](#foo-chapter)
+* [Problem](#Problem)
 * [Installing](#installing)
-* [Running the app](#running-the-app)
+* [API](#API)
 * [License](#license)
 * [Author](#author)
 
-#### Foo chapter
+#### Problem
 
 Some interesting stuff here .......
 
@@ -36,41 +37,62 @@ ___
 
 #### Installing
 
-Some interesting stuff here .......
+There are no futher installation requirments for this project. SImply run on Rep Lit or accessory ruby IDE.
 
 ___
 
-#### API Intro
+#### API
 
-Some description 
-
+The accomodating methods and classes below describes how main.rb creates an instance of the movie list and updates the list.
 ```
 Class SearchController
-.
-.
+
+attr_accessor :searchSuggestionList 
+
+  ####
+  #
+  #1. contstuctor for controller class
+  #2. contains search list
+  #
+  ####
+	def initialize(search_list = [])
+    @searchSuggestionList = search_list
+  end
+
+  ####
+  #
+  #1. prints list
+  #
+  #
+  ####	
+  def showList()
+		puts @searchSuggestionList
+	end
+
+	##### 
+	#
+	# 1.save updated search suggestion list to "data.txt" file 
+	#
+	#####
+	def saveListToFile()
+		out_file = File.new("data.txt", "a")
+    out_file.puts(@searchSuggestionList)
+    out_file.close
+	end
 end
 ```
-
-Some magical APIs are written by Author, like `updateList` API magically handles everything.
-
 ```
 def updateList(movie_name)	
-.
-.
+  for movie in @searchSuggestionList
+      if movie.downcase.eql? movie_name.downcase 
+        @searchSuggestionList.delete(movie)
+        @searchSuggestionList.unshift(movie_name)
+        return
+      end
+    end
+    @searchSuggestionList.unshift(movie_name)
 end
 ```
-___
-
-#### Implementation of Foo
-
-The Foo program is implemented with Observer and Delegation Design Pattern. At a lower level, the program also uses Queue to keep time complexity O(n). 
-
-___
-
-#### Program Time Complexity
-
-The program runs with O(n) time complexity.
-
 ___
 
 #### Result of Sample Test Case
@@ -85,4 +107,4 @@ ___
 ___
 
 ## Author
- [Jay Patel](/LICENSE)
+ [Marvin Royal](/LICENSE)
