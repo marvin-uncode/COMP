@@ -97,8 +97,7 @@ ___
 
 #### Result of Sample Test Case
 
-some image or output is shown by Foo program execution......
-
+![alt text](https://github.com/marvinbell/COMP/blob/master/exampleoutput.JPG)
 ___
 
 #### License
