@@ -95,7 +95,7 @@ ___
 
 #### Result of Sample Test Case
 
-![alt text](https://github.com/marvinbell/COMP/blob/master/exampleoutput.JPG)
+![alt text](https://github.com/marvinbell/COMP/blob/master/scheme_sample.JPG)
 ___
 
 #### License
