@@ -1,24 +1,21 @@
-# Movie Project 
+# Fun Fair Project 
 
-This is the movie search list project. This project will display a default list of movies that is iterated through and compared to a movie inputted by the user. 
+This is the lee county fun fair project. This project will display utilize procedures to the caculate the logistics of colored balls in the fun fair ball bucket game. This project will also utilize these procedues to determine a winner of the game.
 
-* Compares user strings in list displayed, ignoring case
-* The most recent search will appear in the top of the list
-* When user exits program, data will be saved and exported to file
+* Counts the number of balls corresponding to color
+* Counts the total value of balls in bucket based on their color
+* Has a judge procedure that determines the winner based on the total points in buckets
 
 ### Quick start
 **Make sure you have Windows OS version 8 or Linux OS**
-**or
-**Access to internet to run on Rep Lit
 
-> Clone/Download the solution then run `main.rb`
+> Clone/Download the solution then run `funfair_scheme.rkt`
 
 ```
 
 # Download all files from canvas
 
 # For Windows
-$ ruby main.rb
 
 ```
 
@@ -31,68 +28,69 @@ $ ruby main.rb
 
 #### Problem
 
-Some interesting stuff here .......
+The main task of these procedures is to help determine the winner of the fun fair ball game. Participates will have buckets with different colored balls that are worth an certain amounts of points based on their color. Whichever players has the most points will win the game as per the "judge."
 
 ___
 
 #### Installing
 
-There are no futher installation requirments for this project. SImply run on Rep Lit or accessory ruby IDE.
-
+The IDE, "Dr.Racket" will need to be installed beforehand in order to properly run the program.
 ___
 
 #### API
 
-The accomodating methods and classes below describes how main.rb creates an instance of the movie list and updates the list.
-```
-Class SearchController
+The accomodating methods and classes below describes how funfair_scheme.rkt runs its procedures to effectively determines winners in the funfair games.
+___
 
-attr_accessor :searchSuggestionList 
+#lang racket
+(require (planet dyoo/simply-scheme:2:2))
 
-  ####
-  #
-  #1. contstuctor for controller class
-  #2. contains search list
-  #
-  ####
-	def initialize(search_list = [])
-    @searchSuggestionList = search_list
-  end
+(define (ball-val x)
+  (cond
+    ((equal? "R" x) 10)
+    ((equal? "G" x) 15)
+    ((equal? "B" x) 20)
+    ((equal? "W" x) 1)
+  )
+)
 
-  ####
-  #
-  #1. prints list
-  #
-  #
-  ####	
-  def showList()
-		puts @searchSuggestionList
-	end
+(define (count-balls x bucket)
+  (cond ((empty? bucket) 0)
+        (else
+         (cond ((equal? (car bucket) x) (+ 1 (count-balls x (cdr bucket))))
+               (else (count-balls x (cdr bucket)))
+         )
+         )
+        )
+  )
 
-	##### 
-	#
-	# 1.save updated search suggestion list to "data.txt" file 
-	#
-	#####
-	def saveListToFile()
-		out_file = File.new("data.txt", "a")
-    out_file.puts(@searchSuggestionList)
-    out_file.close
-	end
-end
-```
-```
-def updateList(movie_name)	
-  for movie in @searchSuggestionList
-      if movie.downcase.eql? movie_name.downcase 
-        @searchSuggestionList.delete(movie)
-        @searchSuggestionList.unshift(movie_name)
-        return
-      end
-    end
-    @searchSuggestionList.unshift(movie_name)
-end
-```
+(define (color-counts bucket)
+  (define a (count-balls "R" bucket))
+  (define b (count-balls "G" bucket))
+  (define c (count-balls "B" bucket))
+  (define d (count-balls "W" bucket))
+  (cons a (cons b (cons c (cons d'()))))
+ )
+
+(define (bucket-val bucket)
+  (define a (count-balls "R" bucket))
+  (define b (count-balls "G" bucket))
+  (define c (count-balls "B" bucket))
+  (define d (count-balls "W" bucket))
+  (define red_value (* a 10))
+  (define green_value (* b 15))
+  (define blue_value (* c 20))
+  (define white_value (* d 1))
+  (+ red_value green_value blue_value white_value)
+ )
+
+(define (judge bucket_1 bucket_2)
+  (define bucket1 (bucket-val bucket_1))
+  (define bucket2 (bucket-val bucket_2))
+  (cond((> bucket1 bucket2) "Bucket 1, Won .. !")
+       ((< bucket1 bucket2) "Bucket 2, Won .. !")
+       ((= bucket1 bucket2) "It's a Tie .. !"))
+  )
 ___
 
 #### Result of Sample Test Case
