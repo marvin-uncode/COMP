@@ -1,15 +1,16 @@
-# Fun Fair Project 
+# Ringing Phones
 
-This is the lee county fun fair project. This project will display utilize procedures to the caculate the logistics of colored balls in the fun fair ball bucket game. This project will also utilize these procedues to determine a winner of the game.
+This is the phone project. In this project, there are multiple rooms with ringing phones in them. We will find many alternate paths to
+the rooms that have ringing phones in them.
 
-* Counts the number of balls corresponding to color
-* Counts the total value of balls in bucket based on their color
-* Has a judge procedure that determines the winner based on the total points in buckets
+* Prints paths to specified rooms
+* Prints paths to rooms where a starting room was not given
+* Prints paths to rooms where a starting and ending room was not given
 
 ### Quick start
 **Make sure you have Windows OS version 8 or Linux OS**
 
-> Clone/Download the solution then run `funfair_scheme.rkt`
+> Clone/Download the solution then run `roomsandphones.pl`
 
 ```
 
@@ -28,69 +29,51 @@ This is the lee county fun fair project. This project will display utilize proce
 
 #### Problem
 
-The main task of these procedures is to help determine the winner of the fun fair ball game. Participates will have buckets with different colored balls that are worth an certain amounts of points based on their color. Whichever players has the most points will win the game as per the "judge."
-
+The main task of this program is to help determine all possible paths to which a phone may be ringing with the one story building. Sometimes there were be a starting room and ending room given, other times a starting room may not be given, and some other times a starting room and neither a ending room will be given.
 ___
 
 #### Installing
 
-The IDE, "Dr.Racket" will need to be installed beforehand in order to properly run the program.
+The compiler, GNU Prolog, and the IDE ,SWI Prolog, will need to be installed beforehand in order to properly run the program.
 ___
 
 #### API
 
-The accomodating methods and classes below describes how funfair_scheme.rkt runs its procedures to effectively determines winners in the funfair games.
+The accomodating rules and procedures below describe how the rooms are defined and how paths to rooms with ringing phone are found.
 ___
+edge(1,2).
+edge(1,7).
+edge(7,8).
+edge(7,9).
+edge(7,10).
+edge(7,11).
+edge(7,12).
+edge(7,13).
+edge(7,14).
+edge(8,2).
+edge(8,3).
+edge(8,4).
+edge(9,4).
+edge(9,5).
+edge(9,6).
+edge(5,6).
+edge(14,15).
+edge(15,16).
 
-#lang racket
-(require (planet dyoo/simply-scheme:2:2))
 
-(define (ball-val x)
-  (cond
-    ((equal? "R" x) 10)
-    ((equal? "G" x) 15)
-    ((equal? "B" x) 20)
-    ((equal? "W" x) 1)
-  )
-)
+connected(X,Y) :- edge(X,Y) ; edge(Y,X).
 
-(define (count-balls x bucket)
-  (cond ((empty? bucket) 0)
-        (else
-         (cond ((equal? (car bucket) x) (+ 1 (count-balls x (cdr bucket))))
-               (else (count-balls x (cdr bucket)))
-         )
-         )
-        )
-  )
+path_to_phone(A,B,My_Path) :-
+       travel(A,B,[A],Q), 
+       reverse(Q,My_Path).
 
-(define (color-counts bucket)
-  (define a (count-balls "R" bucket))
-  (define b (count-balls "G" bucket))
-  (define c (count-balls "B" bucket))
-  (define d (count-balls "W" bucket))
-  (cons a (cons b (cons c (cons d'()))))
- )
-
-(define (bucket-val bucket)
-  (define a (count-balls "R" bucket))
-  (define b (count-balls "G" bucket))
-  (define c (count-balls "B" bucket))
-  (define d (count-balls "W" bucket))
-  (define red_value (* a 10))
-  (define green_value (* b 15))
-  (define blue_value (* c 20))
-  (define white_value (* d 1))
-  (+ red_value green_value blue_value white_value)
- )
-
-(define (judge bucket_1 bucket_2)
-  (define bucket1 (bucket-val bucket_1))
-  (define bucket2 (bucket-val bucket_2))
-  (cond((> bucket1 bucket2) "Bucket 1, Won .. !")
-       ((< bucket1 bucket2) "Bucket 2, Won .. !")
-       ((= bucket1 bucket2) "It's a Tie .. !"))
-  )
+travel(A,B,P,[B|P]) :- 
+       connected(A,B).
+travel(A,B,Visited,My_Path) :-
+       connected(A,C),           
+       C \== B,
+       \+member(C,Visited),
+       travel(C,B,[C|Visited],My_Path).  
 ___
 
 #### Result of Sample Test Case
